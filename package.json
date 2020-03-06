@@ -1,7 +1,10 @@
 {
   "name": "yata-frontend",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": "Abdalrahim G. Fakhouri",
+  "license": "LGPL-3.0-or-later",
+  "homepage":"./",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

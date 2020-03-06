@@ -3,8 +3,9 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 5vmin;
   pointer-events: none;
+  float: left;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -15,7 +16,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,3 +37,27 @@
     transform: rotate(360deg);
   }
 }
+
+main {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* width: 40%; */
+  width: 400px;
+  max-width: 400px;
+  float: center;
+  text-align: center;
+}
+
+.todo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+}
+
+#createTodo, button {
+  width: 100%;
+}
+
+
