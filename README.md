@@ -1,11 +1,33 @@
 # YATA-Frontend
 YATA-Frontend is the frontend for YATA: Yet Another Todo-List App.
 
-YATA-Frontend is created with React functional components and React hooks.
+YATA-Frontend is created with React functional components and React hooks. 
 
 This code is provided as is, with no guarantee whatsoever, under LGPL v3.0 license. Please read the attached LICENSE file.
 
+The project is named after [Yatta](https://en.wikipedia.org/wiki/Yatta,_Hebron).
+
 The backend is provided separately at: http://github.com/abdilra7eem/yata-backend
+
+-----
+This is still a work in progress. It still needs some features, optimization and UX/UI tweaks.
+
+### It can:
+	- fetch the todo list from the server
+	- create and edit todos
+	- communicate with the yata-backend
+
+### Known issues:
+	- Delete function still not implemented
+	- the newTodo input box doesn't clear on submit
+	- no clear visual clues about success and failure
+	- If data is edited elsewhere (e.g.: with postman), the page needs to be refreshed to see changes.
+	- The code is messy. It needs to be cleaned up.
+	- Still needs inline documentation
+	- Some performance issues
+
+Handling CORS, managing state and inline todo editing were quite tricky to implement, especially that React nullifies DOM element when they are passed to functions. 
+
 -------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
