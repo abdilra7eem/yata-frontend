@@ -5,7 +5,7 @@ YATA-Frontend is created with React functional components and React hooks.
 
 This code is provided as is, with no guarantee whatsoever, under LGPL v3.0 license. Please read the attached LICENSE file.
 
-The frontend is provided separately at: http://github.com/abdilra7eem/yata-frontend
+The backend is provided separately at: http://github.com/abdilra7eem/yata-backend
 -------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
