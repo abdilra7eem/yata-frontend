@@ -13,20 +13,24 @@ The backend is provided separately at: http://github.com/abdilra7eem/yata-backen
 This is still a work in progress. It still needs some features, optimization and UX/UI tweaks.
 
 ### It can:
+	- communicate with the yata-backend
 	- fetch the todo list from the server
 	- create and edit todos
-	- communicate with the yata-backend
+	- delete todo item
 
 ### Known issues:
-	- Delete function still not implemented
-	- the newTodo input box doesn't clear on submit
-	- no clear visual clues about success and failure
-	- If data is edited elsewhere (e.g.: with postman), the page needs to be refreshed to see changes.
-	- The code is messy. It needs to be cleaned up.
-	- Still needs inline documentation
-	- Some performance issues
+- no **clear** visual clues about success and failure *(UX issue)*.
+- If data is edited elsewhere (e.g.: with postman), the page needs to be refreshed to see changes.
+- Still doesn't support non-latin languages.
+- For some reason, setstate does not rerender. Changig the state should rerender the page. This **seems** as a bug in React *(not confirmed)*, and it causes some problems:
+	- For example: setTodos(newTodos) in todoEdit and todoDelete functions didn't refresh the todo-list, and kept showing an outdated one. The spread operator was used as a workaround, and it worked.
+	- However, The setEditable function still doesn't force refresh, which causes the newTodo text box to show outdated information. Example: You write a new todo with text "My new todo". After submitting, the 'editable' state is cleared, but the box still shows "My new todo". Hit 'enter' again, and you'll get an empty text todo item. A workaround is to check if the todo is empty before submitting.
+- The code is messy. It needs to be cleaned up.
+- Still needs inline documentation
+- Some performance issues
+- UI still need work
 
-Handling CORS, managing state and inline todo editing were quite tricky to implement, especially that React nullifies DOM element when they are passed to functions. 
+Handling CORS, managing state and inline todo editing were quite tricky to implement, especially that React nullifies DOM element when they are passed to functions. A workaround was to pass both `event` and `event.target` to the handler function.
 
 -------
 

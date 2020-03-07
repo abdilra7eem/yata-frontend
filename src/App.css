@@ -54,10 +54,32 @@ main {
   flex-direction: row;
   flex-wrap: nowrap;
   align-content: flex-start;
+  justify-content: space-between;
+  min-width: 20px;
 }
 
-#createTodo, button {
+.todo p{
+  min-width: 20px;
+  min-height: 25px;
+}
+
+.todoEditBox{
+  min-width: 100%;
   width: 100%;
 }
+.todo form{
+  width: 100%;
+  min-width: 100%;
+}
 
+#createTodo{
+  width: 100%;
+  min-width: 100%;
+}
+
+.deleter {
+  max-width: 3px;
+  max-height: auto;
+  padding: 0px;
+}
 

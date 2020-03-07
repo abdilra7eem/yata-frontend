@@ -17,19 +17,23 @@ function CreateTodo(props){
 
 function Todo(props){
   let {isdone, todo, id} = props.item;
-  let {todoEdit, isDoneToggler, editable, handleEdit, setEditable, beingEdited, setBeingEdited} = props;
+  let {todoEdit, isDoneToggler, editable, handleEdit, setEditable, beingEdited, setBeingEdited, todoDelete} = props;
 
   if (beingEdited == id) {
     return (
       <div className="todo" data-todoid={id}>
-        <form onSubmit={e=>handleEdit(e, e.target)}><input type="text" onChange={e=>setEditable(e.target.value)} defaultValue={todo}></input></form>
+        <form onSubmit={e=>handleEdit(e, e.target)}><input type="text" className="todoEditBox" onChange={e=>setEditable(e.target.value)} defaultValue={todo}></input></form>
       </div>
    );
   }else {
     return (
       <div className="todo" data-todoid={id}>
         <input type="checkbox" onChange={(e)=>isDoneToggler(e, e.target)} checked={!!isdone}></input>
-        <p onDoubleClick={(e)=>setBeingEdited(e.target.parentElement.dataset.todoid)}>{todo}</p>
+        <p onDoubleClick={(e)=>{
+          setEditable(e.target.innerText);
+          setBeingEdited(e.target.parentElement.dataset.todoid);
+        }}>{todo}</p>
+        <button onClick={(e) => todoDelete(e, e.target)} className="deleter">X</button>
       </div>
    );
   }
@@ -39,7 +43,7 @@ function TodoList(props){
   return (
       props.todos.map((item, index) => (
       <Todo item={item} key={index} 
-        editing={props.editing} isDoneToggler={props.isDoneToggler} todoEdit={props.todoEdit} editable={props.editable} handleEdit={props.handleEdit} setEditable={props.setEditable} beingEdited={props.beingEdited} setBeingEdited={props.setBeingEdited}/>
+        editing={props.editing} isDoneToggler={props.isDoneToggler} todoEdit={props.todoEdit} editable={props.editable} handleEdit={props.handleEdit} setEditable={props.setEditable} beingEdited={props.beingEdited} setBeingEdited={props.setBeingEdited} todoDelete={props.todoDelete}/>
       ))
   );
 }
@@ -51,6 +55,31 @@ function App() {
   const [editing, setEditing] = useState(false);
   const [editable, setEditable] = useState(""); // Text of the todo item being edited
   const [beingEdited, setBeingEdited] = useState(0); // id of the todo being edited. 0 for new todo
+
+  const todoDelete= (e, target)=>{
+    e.preventDefault();
+    let id = target.parentElement.dataset.todoid;
+    fetch(`http://localhost:4000/deleteTodo/${id}`)
+    .then(res => res.text())
+    .then(texty=>{
+      if (texty === 'deleted') {
+        let newTodos = todos;
+        newTodos.forEach( (item, index) =>{
+          if (item.id == id) {
+            newTodos.splice(index, 1);
+          }
+        });
+        setBeingEdited(0);
+        setTodos([...newTodos]);
+        setEditable("");
+        console.log("Item deleted successfully.");
+        console.log(todos);
+      } else {
+        console.log("Some server-side error occured");
+      }
+    })
+    .catch(err=>console.log(err));
+  }
 
   const isDoneToggler = (e, target)=>{
     e.preventDefault();
@@ -102,15 +131,18 @@ function App() {
         let newTodos = todos.map(item=> (item.id == newTodo.id) ? newTodo: item)
         console.log(newTodos)
         setBeingEdited(0);
-        setTodos(newTodos);
+        setEditable("");
+        setTodos([...newTodos]);
       } else if (texty==="Error"){
         console.log("The server API returned an error")
       }else{
         newTodo.id = texty;
         console.log(newTodo);
+        setBeingEdited(0);
+        setEditable("");
         setTodos([...todos,newTodo]);
       }
-      setEditable("");
+
       // document.getElementById("newTodo").firstChild.firstChild.innerHTML("");
     })
     .catch(err => {
@@ -169,7 +201,7 @@ function App() {
         <main>
           <CreateTodo handleEdit={handleEdit} setEditable={setEditable} beingEdited={beingEdited} />
           <div id="todoList">
-            <TodoList todos={todos} editing={editing} isDoneToggler={isDoneToggler} todoEdit={todoEdit} editable={editable} setEditable={setEditable} handleEdit={handleEdit} beingEdited={beingEdited} setBeingEdited={setBeingEdited}/>
+            <TodoList todos={todos} editing={editing} isDoneToggler={isDoneToggler} todoEdit={todoEdit} editable={editable} setEditable={setEditable} handleEdit={handleEdit} beingEdited={beingEdited} setBeingEdited={setBeingEdited} todoDelete={todoDelete}/>
           </div>
           <button onClick={(e)=>todosFetcher(e)}>todosFetcher</button>
         </main>
